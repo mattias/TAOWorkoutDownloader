@@ -1,0 +1,9 @@
+{
+  "ClientID": "ClientID",
+  "ClientSecret": "ClientSecret",
+  "Scopes": ["TAO_MOBILE"],
+  "Endpoint": {
+    "AuthURL": "https://beta.trainasone.com/oauth/authorise",
+    "TokenURL": "https://beta.trainasone.com/oauth/token"
+  }
+}
