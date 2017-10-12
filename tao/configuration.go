@@ -13,8 +13,8 @@ type Configuration struct {
 	TargetType string
 }
 
-func (c *Configuration) Load() error {
-	err := c.loadOauth2()
+func (c *Configuration) Load() {
+	err := c.loadOauth2Configuration()
 	if err != nil {
 		panic(err)
 	}
@@ -23,11 +23,9 @@ func (c *Configuration) Load() error {
 	if err != nil {
 		panic(err)
 	}
-
-	return err
 }
 
-func (c *Configuration) loadOauth2() error {
+func (c *Configuration) loadOauth2Configuration() error {
 	oauth2Conf, err := os.Open("../config/oauth2.conf")
 	if err != nil {
 		panic(err)
