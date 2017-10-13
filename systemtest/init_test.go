@@ -8,10 +8,10 @@ import (
 	"testing"
 )
 
-var configuration tao.Configuration
+var client tao.Client
 
 var _ = BeforeSuite(func() {
-	configuration.Load()
+	client.Init()
 })
 
 func TestSystemtest(t *testing.T) {
