@@ -8,6 +8,7 @@ import (
 	"testing"
 )
 
+// TODO: Rewrite to use real command instead of the client here. A real system test...
 var client tao.Client
 
 var _ = BeforeSuite(func() {

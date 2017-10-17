@@ -8,12 +8,22 @@ import (
 )
 
 type Configuration struct {
-	Oauth2     *oauth2.Config
+	Oauth2     oauth2.Config
 	FileType   string
 	TargetType string
 }
 
 func (c *Configuration) Load() {
+	c.Oauth2 = oauth2.Config{
+		ClientID:     "",
+		ClientSecret: "",
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  "https://beta.trainasone.com/oauth/authorise",
+			TokenURL: "https://beta.trainasone.com/oauth/token",
+		},
+		Scopes: []string{"TAO_MOBILE"},
+	}
+
 	err := c.loadOauth2Configuration()
 	if err != nil {
 		panic(err)
@@ -33,10 +43,8 @@ func (c *Configuration) loadOauth2Configuration() error {
 	defer oauth2Conf.Close()
 
 	decoder := json.NewDecoder(oauth2Conf)
-	oauth2config := oauth2.Config{}
-	c.Oauth2 = &oauth2config
 
-	return decoder.Decode(&oauth2config)
+	return decoder.Decode(&c)
 }
 
 func (c *Configuration) loadAppConfiguration() error {
