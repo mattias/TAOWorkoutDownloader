@@ -44,7 +44,7 @@ func (c *Configuration) loadOauth2Configuration() error {
 
 	decoder := json.NewDecoder(oauth2Conf)
 
-	return decoder.Decode(&c)
+	return decoder.Decode(&c.Oauth2)
 }
 
 func (c *Configuration) loadAppConfiguration() error {

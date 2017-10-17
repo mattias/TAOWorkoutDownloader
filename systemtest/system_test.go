@@ -9,6 +9,7 @@ import (
 
 var _ = Describe("the application", func() {
 	It("can read the configuration file", func() {
+		Expect(client.Config.Oauth2.ClientID).NotTo(BeEmpty())
 		Expect(client.Config.Oauth2.Endpoint.AuthURL).To(Equal("https://beta.trainasone.com/oauth/authorise"))
 		Expect(client.Config.FileType).To(Equal("fit"))
 		Expect(client.Config.TargetType).To(Equal("heart_rate"))
