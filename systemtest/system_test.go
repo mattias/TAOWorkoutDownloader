@@ -8,13 +8,7 @@ import (
 )
 
 var _ = Describe("the application", func() {
-	It("can read the configuration file", func() {
-		Expect(client.Config.Oauth2.ClientID).NotTo(BeEmpty())
-		Expect(client.Config.Oauth2.Endpoint.AuthURL).To(Equal("https://beta.trainasone.com/oauth/authorise"))
-		Expect(client.Config.Workout.FileType).To(Equal("fit"))
-		Expect(client.Config.Workout.TargetType).To(Equal("heart_rate"))
-	})
-
+	// TODO: Rewrite to use real command, this is a duplicate of the client unit test
 	It("saves the upcoming workout from TrainAsONE in specified path", func() {
 		var path string = "../"
 

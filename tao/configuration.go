@@ -8,8 +8,9 @@ import (
 )
 
 type Configuration struct {
-	Oauth2  oauth2.Config
-	Workout Workout
+	Oauth2     oauth2.Config
+	Workout    Workout
+	DevicePath string
 }
 
 type Workout struct {
@@ -58,5 +59,5 @@ func (c *Configuration) loadAppConfiguration() error {
 
 	decoder := json.NewDecoder(appConf)
 
-	return decoder.Decode(&c.Workout)
+	return decoder.Decode(&c)
 }

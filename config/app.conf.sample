@@ -1,4 +1,7 @@
 {
-  "FileType": "fit",
-  "TargetType": "heart_rate"
+  "Workout": {
+    "FileType": "fit",
+    "TargetType": "heart_rate"
+  },
+  "DevicePath": "/path/to/device"
 }
