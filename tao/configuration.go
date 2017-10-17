@@ -8,15 +8,17 @@ import (
 )
 
 type Configuration struct {
-	Oauth2     oauth2.Config
+	Oauth2  oauth2.Config
+	Workout Workout
+}
+
+type Workout struct {
 	FileType   string
 	TargetType string
 }
 
 func (c *Configuration) Load() {
 	c.Oauth2 = oauth2.Config{
-		ClientID:     "",
-		ClientSecret: "",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://beta.trainasone.com/oauth/authorise",
 			TokenURL: "https://beta.trainasone.com/oauth/token",
@@ -56,5 +58,5 @@ func (c *Configuration) loadAppConfiguration() error {
 
 	decoder := json.NewDecoder(appConf)
 
-	return decoder.Decode(&c)
+	return decoder.Decode(&c.Workout)
 }

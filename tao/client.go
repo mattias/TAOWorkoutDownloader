@@ -14,7 +14,7 @@ func (c *Client) Init() {
 }
 
 func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
-	file, err := os.Create(path + "workout.fit")
+	file, err := os.Create(path + "workout" + c.getWorkoutFileType())
 	if err != nil {
 		panic(err)
 	}
@@ -22,4 +22,8 @@ func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
 	file.Write([]byte("test"))
 
 	return strings.Trim(file.Name(), path), err
+}
+
+func (c *Client) getWorkoutFileType() string {
+	return "." + c.Config.Workout.FileType
 }
