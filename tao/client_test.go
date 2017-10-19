@@ -25,12 +25,13 @@ var _ = Describe("Client", func() {
 
 	It("can download a workout from the web service", func() {
 		var path string = "../"
-		file_name, err := client.SaveNextWorkoutTo(path)
+		var code string = "secret"
+		fileName, err := client.SaveNextWorkoutTo(path, code)
 
-		defer os.Remove(path + file_name)
+		defer os.Remove(path + fileName)
 		Expect(err).NotTo(HaveOccurred())
 
-		Expect(file_name).To(Equal("workout.fit"))
+		Expect(fileName).To(Equal("workout.fit"))
 
 		Expect(path).Should(BeAnExistingFile())
 	})

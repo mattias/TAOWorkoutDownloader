@@ -20,6 +20,7 @@ type Workout struct {
 
 func (c *Configuration) Load() {
 	c.Oauth2 = oauth2.Config{
+		RedirectURL: "http://localhost:4000/",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://beta.trainasone.com/oauth/authorise",
 			TokenURL: "https://beta.trainasone.com/oauth/token",
@@ -39,7 +40,7 @@ func (c *Configuration) Load() {
 }
 
 func (c *Configuration) loadOauth2Configuration() error {
-	oauth2Conf, err := os.Open("../config/oauth2.conf")
+	oauth2Conf, err := os.Open("./config/oauth2.conf")
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +52,7 @@ func (c *Configuration) loadOauth2Configuration() error {
 }
 
 func (c *Configuration) loadAppConfiguration() error {
-	appConf, err := os.Open("../config/app.conf")
+	appConf, err := os.Open("./config/app.conf")
 	if err != nil {
 		panic(err)
 	}
