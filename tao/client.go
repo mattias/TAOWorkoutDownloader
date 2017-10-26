@@ -4,31 +4,28 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
+
+	"golang.org/x/oauth2"
 )
 
 const serverURL string = "https://beta.trainasone.com"
 
 type Client struct {
-	Config Configuration
+	Config  Configuration
+	Token   *oauth2.Token
+	Context context.Context
 }
 
 func (c *Client) Init() {
 	c.Config.Load()
+	c.Context = context.Background()
 }
 
-func (c *Client) SaveNextWorkoutTo(path string, code string) (string, error) {
-	ctx := context.Background()
-
-	token, err := c.Config.Oauth2.Exchange(ctx, code)
-	if err != nil {
-		log.Fatalf("Code exchange failed with '%s'\n", err)
-	}
-
-	client := c.Config.Oauth2.Client(ctx, token)
-	resp, err := client.Get(serverURL + "/api/mobile/plannedWorkout?access_token=" + token.AccessToken)
+func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
+	client := c.Config.Oauth2.Client(c.Context, c.Token)
+	resp, err := client.Get(serverURL + "/api/mobile/plannedWorkout?access_token=" + c.Token.AccessToken)
 	if err != nil {
 		panic(err)
 	}

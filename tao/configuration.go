@@ -20,7 +20,7 @@ type Workout struct {
 
 func (c *Configuration) Load() {
 	c.Oauth2 = oauth2.Config{
-		RedirectURL: "http://localhost:4000/",
+		RedirectURL: "https://localhost:4443/oauthCallback/",
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  "https://beta.trainasone.com/oauth/authorise",
 			TokenURL: "https://beta.trainasone.com/oauth/token",
