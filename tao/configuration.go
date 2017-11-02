@@ -9,13 +9,8 @@ import (
 
 type Configuration struct {
 	Oauth2     oauth2.Config
-	Workout    Workout
+	ServerURL  string
 	DevicePath string
-}
-
-type Workout struct {
-	FileType   string
-	TargetType string
 }
 
 func (c *Configuration) Load() {

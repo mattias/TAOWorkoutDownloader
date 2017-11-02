@@ -9,6 +9,7 @@ import (
 	"runtime"
 
 	"github.com/elgs/gostrgen"
+	"github.com/mattias/TAOWorkoutDownloader/cache"
 	"github.com/mattias/TAOWorkoutDownloader/tao"
 	"golang.org/x/oauth2"
 )
@@ -22,13 +23,10 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("State string generated: %s\n", oauthStateString)
-
 	client.Init()
 
 	http.HandleFunc("/oauthCallback/", func(w http.ResponseWriter, r *http.Request) {
 		state := r.FormValue("state")
-		fmt.Printf("State string received: %s\n", state)
 		if state != oauthStateString {
 			log.Printf("Invalid oauth state, expected '%s', got '%s'\n", oauthStateString, state)
 			return
@@ -39,9 +37,6 @@ func main() {
 			log.Printf("We got no code! Exiting...")
 			os.Exit(1)
 		}
-		fmt.Printf("We got code: %s\n", code)
-
-		fmt.Printf("Configuration for Oauth2:\n%+v\n", client.Config.Oauth2)
 
 		var token *oauth2.Token
 
@@ -51,10 +46,12 @@ func main() {
 		}
 
 		client.Token = token
+		err = cache.Save("token", token)
+		if err != nil {
+			panic(err)
+		}
 
-		fmt.Printf("%+v\n", token)
-
-		_, err = client.SaveNextWorkoutTo("./")
+		err = client.SaveNextWorkout()
 		if err != nil {
 			panic(err)
 		}
@@ -65,10 +62,9 @@ func main() {
 	// Only run this if token becomes invalid
 	if client.Token == nil {
 		url := client.Config.Oauth2.AuthCodeURL(oauthStateString, oauth2.AccessTypeOffline)
-		fmt.Printf("Url generated: %s\n", url)
 		open(url)
 	} else {
-		_, err = client.SaveNextWorkoutTo("./")
+		err = client.SaveNextWorkout()
 		if err != nil {
 			panic(err)
 		}

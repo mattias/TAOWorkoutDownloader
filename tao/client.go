@@ -4,12 +4,10 @@ import (
 	"context"
 	"io/ioutil"
 	"os"
-	"strings"
 
+	"github.com/mattias/TAOWorkoutDownloader/cache"
 	"golang.org/x/oauth2"
 )
-
-const serverURL string = "https://stage.trainasone.com"
 
 type Client struct {
 	Config  Configuration
@@ -20,13 +18,24 @@ type Client struct {
 func (c *Client) Init() {
 	c.Config.Load()
 	c.Context = context.Background()
+	c.loadToken()
 }
 
-func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
+func (c *Client) loadToken() {
+	var token = new(oauth2.Token)
+
+	err := cache.Load("token", token)
+	if err == nil {
+		c.Token = token
+	}
+}
+
+func (c *Client) SaveNextWorkout() error {
 	client := c.Config.Oauth2.Client(c.Context, c.Token)
-	resp, err := client.Get(serverURL + "/api/mobile/plannedWorkout?access_token=" + c.Token.AccessToken)
+	resp, err := client.Get(c.Config.ServerURL + "/api/mobile/plannedWorkout?access_token=" + c.Token.AccessToken)
 	if err != nil {
 		panic(err)
+		// new token?
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -34,12 +43,12 @@ func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
 		panic(err)
 	}
 
-	file, err := os.Create(path + "workout.fit")
+	file, err := os.Create("../" + "workout.fit")
 	if err != nil {
 		panic(err)
 	}
 
 	file.Write(body)
 
-	return strings.Trim(file.Name(), path), err
+	return err
 }

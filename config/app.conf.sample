@@ -1,7 +1,4 @@
 {
-  "Workout": {
-    "FileType": "fit",
-    "TargetType": "heart_rate"
-  },
+  "ServerURL": "https://beta.trainasone.com/",
   "DevicePath": "/path/to/device"
 }
