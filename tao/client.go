@@ -2,7 +2,6 @@ package tao
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -34,18 +33,13 @@ func (c *Client) SaveNextWorkoutTo(path string) (string, error) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Body: %s", body)
 
-	file, err := os.Create(path + "workout" + c.getWorkoutFileType())
+	file, err := os.Create(path + "workout.fit")
 	if err != nil {
 		panic(err)
 	}
 
-	file.Write([]byte("test"))
+	file.Write(body)
 
 	return strings.Trim(file.Name(), path), err
-}
-
-func (c *Client) getWorkoutFileType() string {
-	return "." + c.Config.Workout.FileType
 }
