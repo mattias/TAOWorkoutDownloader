@@ -1,4 +1,8 @@
 {
   "ClientID": "ClientID",
-  "ClientSecret": "ClientSecret"
+  "ClientSecret": "ClientSecret",
+	"Endpoint": {
+		"AuthURL":  "https://stage.trainasone.com/oauth/authorise",
+		"TokenURL": "https://stage.trainasone.com/oauth/token"
+	}
 }
