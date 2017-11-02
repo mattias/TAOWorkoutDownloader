@@ -10,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const serverURL string = "https://beta.trainasone.com"
+const serverURL string = "https://stage.trainasone.com"
 
 type Client struct {
 	Config  Configuration
